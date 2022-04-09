@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQuery发送AJAX请求</title>
+    <link crossorigin="anonymous" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>JQuery发送AJAX请求</h2>
+        <p>如果只想发简单的get post请求，就用$.get() $.post()</p>
+        <p>如果想发自定义内容可以选择通用型方法$.ajax()</p>
+        <button class="btn btn-primary">$.get()</button>
+        <button class="btn btn-success">$.post()</button>
+        <button class="btn btn-warning">$.ajax()</button>
+    </div>
+    <script>
+        // 第一个按钮：发送get请求
+        $('button').eq(0).click(function(){
+            // 参数：url，数据，回调函数，[格式]
+            $.get('http://127.0.0.1:8000/jquery-server',{a:100,b:200},(data)=>{
+                console.log(data)
+            },'json')
+        })
+
+        // 第二个按钮：发送post请求
+        $('button').eq(1).click(function(){
+            $.post('http://127.0.0.1:8000/jquery-server',{a:100,b:200},(data)=>{
+                console.log(data);
+            })
+        })
+
+        // 第三个按钮：通用ajax方法发送请求
+        $('button').eq(2).click(function(){
+            // 参数是一个对象
+            $.ajax({
+                // url
+                url: 'http://127.0.0.1:8000/jquery-server',
+                // url: 'http://127.0.0.1:8000/delay', // 用来测试超时
+                // 请求类型
+                type: 'GET',
+                // 参数
+                data: {a:100,b:200},
+                // 响应体结果
+                dataType: 'json',
+                // 响应成功的回调函数
+                success(data){
+                    console.log(data);
+                },
+                // 失败回调
+                error(){
+                    console.log("err!");
+                },
+                // 超时事件
+                timeout: 5000,
+                // 自定义头信息
+                headers: {
+                    c:300,
+                    d:400
+                }
+            })
+        })
+    </script>
+</body>
+</html>

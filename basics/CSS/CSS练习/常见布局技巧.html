@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<br lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常见布局技巧</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        li {
+            /* 列表横向排列 */
+            float: left;
+            /* 去除列表前圆点标志 */
+            list-style: none;
+            width: 100px;
+            height: 200px;
+            border: 1px solid blue;
+            /* 细边框效果 */
+            margin-left: -1px;
+        }
+
+        li:hover {
+            /* 定位大于标准流。提升盒子优先级避免旁边盒子压住边框而无法显示自身边框 */
+            position: relative;
+            border-color: orangered;
+        }
+
+        /* 底部页码块 */
+        .pages {
+            /* 整个页码块页内居中 */
+            margin: 10px;
+            text-align: center;
+        }
+
+        .pages a {
+            /* 行内块 */
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #f7f7f7;
+            /* 去除链接的下划线显示 */
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ccc;
+
+            /* 文字水平居中显示 */
+            text-align: center;
+            /* 垂直居中 */
+            line-height: 36px;
+        }
+
+        .pages .prev,
+        .pages .next {
+            width: 85px;
+        }
+
+        .pages .cur,
+        .pages .elp {
+            border: none;
+            background-color: #fff;
+        }
+
+        /* 直角三角及京东价格标签 */
+        .right-triangle {
+            /* 尖角指向左侧的直角三角 */
+            border-color: transparent red transparent transparent;
+            border-style: solid;
+            /* 高度比宽度稍大的直角三角 */
+            border-width: 100px 50px 0 0;
+
+        }
+
+        /* css3过渡 */
+        .trans {
+            /* 任何css属性都可以过度 */
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            /* transition: 要过渡的属性(全部all) 花费时间(s) 运动曲线(默认ease,可省略) 何时开始(s, 可省略)； */
+            /* transition: width .5s ease 1s; */
+            transition: width 1s ease .5s, height 1s ease 1s;
+        }
+
+        .trans:hover {
+            width: 400px;
+            height: 400px;
+        }
+
+        /* 进度调案例 */
+        .bar {
+            margin-top: 10px;
+            width: 150px;
+            height: 15px;
+            border: 1px solid red;
+            border-radius: 7px;
+            padding: 1px;
+        }
+
+        .bar_in {
+            width: 50%;
+            height: 100%;
+            background-color: red;
+            transition: width 1s ease-out;
+        }
+
+        .bar_in:hover {
+            width: 100%;
+        }
+
+        /* 定位+traslate实现垂直水平居中 */
+        .translate {
+            margin: 10px;
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: cadetblue;
+        }
+
+        .translate p {
+            /* 定位走父盒子高宽的一半 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: cornsilk;
+            /* tanslate向上左走自身高宽的一半 */
+            transform: translate(-50%, -50%);
+        }
+
+        /* 旋转效果 */
+        .rotate {
+
+            margin: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: darkgoldenrod;
+            /* 顺时针旋转45度 */
+            transform: rotate(45deg);
+        }
+
+        /* 旋转做三角 */
+        .rotate_triangle {
+            position: relative;
+            width: 249px;
+            height: 35px;
+            border: 1px solid #000;
+        }
+
+        .rotate_triangle::after {
+            content: "";
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            width: 10px;
+            height: 10px;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            /*做下三角 */
+            transform: rotate(45deg);
+            /* 渐变动画 */
+            transition: all 0.6s;
+        }
+
+        /* 鼠标经过三角旋转 */
+        .rotate_triangle:hover::after {
+            transform: rotate(225deg);
+        }
+
+        /* 鼠标经过盒子缩放 */
+        .scale {
+            margin: 10px auto;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            transition: all .6s;
+        }
+
+        .scale:hover {
+            transform: scale(0.5, 0.5);
+        }
+
+        /* 鼠标经过图片缩放 */
+        .scale_img {
+            /* 横向排列 */
+            float: left;
+            /* 不超出盒子大小显示 */
+            overflow: hidden;
+            width: 150px;
+            height: 100px;
+            margin: 10px;
+        }
+
+        .scale_img img {
+            width: 100%;
+            height: 100%;
+            transition: all .6s;
+        }
+
+        .scale_img img:hover {
+            transform: scale(1.1)
+        }
+
+        /* 网页加载盒子移动 */
+        /* 1.定义动画 */
+        @keyframes move {
+
+            /* 开始状态 */
+            0% {
+                transform: translateX(0px);
+            }
+
+            /* 结束状态 */
+            100% {
+                transform: translateX(1000px);
+            }
+        }
+
+        .animation {
+            width: 100px;
+            height: 100px;
+            background-color: cornflowerblue;
+            /* 2.使用动画 */
+            /* 动画名 */
+            animation: move;
+            /* 持续时间 */
+            animation-duration: 2s;
+
+            /* 动画常见属性 */
+
+            /* 动画速度曲线 */
+            animation-timing-function: ease-out;
+            /* 动画被播放的次数 */
+            animation-iteration-count: infinite;
+            /*默认1*/
+            /* 动画是否再下周期逆播放 */
+            animation-direction: alternate;
+            /*normal*/
+            /* 动画是否正在运行或暂停 */
+            animation-play-state: running;
+            /*paused*/
+            /* 动画结束后状态 */
+            /* animation-fill-mode: forwards; */
+            /*保持，回到起始backwards*/
+        }
+
+        /* 透视放大 */
+        .persp {
+            /* 透视写到被观察盒子的父盒子上 */
+            perspective: 500px;
+        }
+
+        .persp div {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            background-color: cornflowerblue;
+            /* 3d移动 */
+            transform: translate3d(50px, -10px, 50px);
+        }
+
+        /* 3d旋转 */
+        .rotate3d {
+            margin: 10px auto;
+            width: 150px;
+            height: 100px;
+            /* 在父盒子加透视 */
+            perspective: 100px;
+        }
+
+        .rotate3d img {
+            width: 100%;
+            height: 100%;
+            transition: all 1s;
+        }
+
+        .rotate3d img:hover {
+            transform: rotateX(360deg)
+        }
+    </style>
+
+
+</head>
+
+<!-- margin负值的运用 -->
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+
+<!-- 清除浮动 -->
+<div style="clear: both;"></div>
+
+<!-- 行内块元素制作底部页码元素 -->
+<div class="pages">
+    <a href="#" class='prev'>&lt;&lt;上一页</a>
+    <a href="#" class="cur">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#">6</a>
+    <a href="#">7</a>
+    <a href="#" class='elp'>...</a>
+    <a href="#" class='next'>&gt;&gt;下一页</a>
+</div>
+
+<!-- 直角三角的制作 -->
+<div class="right-triangle"></div>
+
+<!-- CSS3 过渡效果 -->
+<div class="trans">CSS3过渡效果</div>
+<!-- 过渡-进度条案例 -->
+<div class="bar">
+    <div class="bar_in"></div>
+</div>
+
+<!-- 定位+translate实现水平垂直居中 -->
+<div class="translate">
+    定位+translate实现水平垂直居中
+    <p></p>
+</div>
+
+<!-- 旋转效果 -->
+<div class="rotate"></div>
+<!-- 旋转做三角 -->
+<div class="rotate_triangle"></div>
+
+<!-- 缩放 -->
+<div class="scale">缩放</div>
+<!-- 图片缩放 -->
+<div style="overflow: hidden;">
+    <div class="scale_img">
+        <a href="#"><img src="./imgs/taobo-promo-4.jpg" alt=""></a>
+    </div>
+    <div class="scale_img">
+        <a href="#"><img src="./imgs/taobo-promo-4.jpg" alt=""></a>
+    </div>
+    <div class="scale_img">
+        <a href="#"><img src="./imgs/taobo-promo-4.jpg" alt=""></a>
+    </div>
+</div>
+
+
+<!-- 动画 -->
+<div class="animation"></div>
+
+<!-- 3d 透视 -->
+<div class="persp">
+    <div>透视放大</div>
+</div>
+
+<!-- 3d旋转 -->
+<div class="rotate3d">
+    <img src="./imgs/taobo-promo-3.jpg" alt="">
+</div>
+</body>
+
+</html>

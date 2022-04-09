@@ -1,0 +1,136 @@
+<!-- Drag Drop 拖放API
+    被拖放元素标签:设置draggable属性来实现元素的拖放，img和a标签默认是可以拖放的
+    事件：
+    在拖动目标上触发，绑定在被拖动的元素上：
+        ondragstart 拖动开始时
+        ondrag      拖动元素时
+        ondragend   拖动结束时
+    释放目标时触发，绑定在作容器的元素上：
+        ondragenter 被拖放元素进入容器范围时
+        ondragover  被拖放元素在容器范围内拖动时
+        ondragleave 被拖放元素离开容器范围时
+        ondrop      拖动过程中释放鼠标时
+
+    可以直接在html上绑定onxxx事件和相关函数
+    也可以在脚本中用addEventListener绑定xxx事件（去掉on）和相关函数
+
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        div{
+            margin: 10px;
+            float: left;
+        }
+        #box{
+            width: 100%;
+            padding: 30px;
+        }
+        #div1,#div2{
+            width:300px; 
+            height:300px;
+            padding: 0 10px;
+            border:1px solid #ccc;
+        }
+        #div-drag{
+            width:200px; 
+            height:200px;
+            background-color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <p>请把紫色框拖放到矩形中：</p>
+    <!--  容器元素
+    ondrop :当放置被拖数据时，会发生 drop 事件。
+    ondragover :事件规定在何处放置被拖动的数据。
+    ondragenter :表示当元素被拖动到放置目标上就会触发，类似于mouseover事件
+    ondragleave :离开当前元素
+    -->
+    <div id="box">
+        <div id="div1">
+            <p>div1</p>
+        </div>
+        <div id="div2">
+            <p>div2</p>
+        </div>
+        <!--被拖放元素
+        draggable="true" :设置元素可被拖放
+        ondragstart :拖动开始时
+        ondrag :正在拖动
+        ondragover :拖动结束
+        -->
+        <div id="div-drag" draggable="true">
+            拖拽放入方框</div>
+    </div>
+    <script type="text/javascript">
+        let box=document.getElementById("box")
+        console.log(box)
+        box.addEventListener("dragenter",enter)
+        box.addEventListener("dragover",over)
+        box.addEventListener("dragleave",leave)
+        box.addEventListener("drop",drop)
+
+        let divDrag=document.getElementById("div-drag")
+        divDrag.addEventListener("dragstart",start)
+        divDrag.addEventListener("drag",drag)
+        divDrag.addEventListener("dragend",end)
+
+        function enter(e){
+            console.log("drag enter",e.target.id)
+            e.target.style.color="purple"
+        }
+
+        function over(e){
+            // 默认情况下,数据/元素不能在其他元素中被拖放
+            // 防止元素的默认处理，使元素可以被放容器
+            e.preventDefault() // 阻止元素发生默认的行为
+            // console.log("drag over")
+        }
+
+        function leave(e){
+            console.log("drag leave",e.target.id)
+            e.target.style.color="black"
+        }
+
+        function drop(e){
+            // 默认情况下,数据/元素不能在其他元素中被拖放
+            // 防止元素的默认处理，使元素可以被放容器
+            // e.preventDefault()
+            let data=e.dataTransfer.getData("text") // 获取id
+            e.target.appendChild(document.getElementById(data)) 
+            // 根据id插入，本质上是从DOM树上的一个位置移到另一个位置
+            // 存在问题：插入到被拖拽元素内部会报错
+            console.log("drop",data,"to",e.target.id)
+        }
+
+        // 被拖拽元素上的事件：dragstart drag dragend
+        function start(e){
+            // drag events 的 dataTransfer 属性会返回一个DataTransfer对象
+            // 这个对象上有setData()和getData()方法
+            // 会按照数据的类型名设置和读取对应的数据
+            e.dataTransfer.setData("text",e.target.id) // 记录id
+            console.log("drag start",e.target.id)
+            e.target.innerText="拖动开始"
+            e.target.style.color="white"
+        }
+
+        function drag(e){
+            // console.log("drag")
+            e.target.innerText="拖动时的元素"
+            e.target.style.color="red"
+        }
+
+        function end(e){
+            console.log("drag end")
+            e.target.innerText="拖拽结束"
+            e.target.style.color="black"
+        }
+
+
+        
+    </script>
+</body>
+</html>

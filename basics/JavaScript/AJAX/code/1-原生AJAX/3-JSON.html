@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX JSON</title>
+    <style>
+        #res{
+            height: 300px;
+            width: 300px;
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="res"></div>
+    <script>
+        // 服务端发送json格式的数据
+        // 在窗口中按下任意键发送请求
+        const res=document.querySelector("#res")
+        window.onkeydown=function(){
+            // 1. 发送请求
+            const xhr=new XMLHttpRequest()
+            // 设置响应体格式为json，这样就不用手动类型转换，见4.2
+            xhr.responseType="json"
+
+            // 2. 初始化
+            xhr.open('GET','http://127.0.0.1:8000/json-server')
+
+            // 3. 发送
+            xhr.send()
+
+            // 4. 绑定事件
+            xhr.onreadystatechange=function(){
+                if (xhr.readyState===4){
+                    if (xhr.status>=200 && xhr.status<300){
+                        console.log(xhr.response)
+                        // 服务器返回对象的字符串格式
+                        // 4.1 手动转换
+                        // let data=JSON.parse(xhr.response)
+                        // 4.2 自动转换，设置responseType
+                        res.innerHTML=xhr.response.name
+
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

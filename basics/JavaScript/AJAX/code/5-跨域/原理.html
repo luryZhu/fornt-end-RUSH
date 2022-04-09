@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONP跨域原理</title>
+    <style>
+        #result{
+            width: 300px;
+            height: 300px;
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="result"></div>
+    <script>
+        function handler(data){
+            const result=document.getElementById("result")
+            result.innerHTML=data.name
+        }
+    </script>
+    <!-- <script src="http://127.0.0.1:5500/%E4%BB%A3%E7%A0%81/my%E8%B7%A8%E5%9F%9F/JSONP/app.js"></script> -->
+    <script src="http://127.0.0.1:8000/jsonp-server"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX GET</title>
+    <style>
+        #res{
+            width: 300px;
+            height: 200px;
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+<body>
+    <p>解决IE缓存问题</p>
+    <p>IE浏览器在再次进行请求时，加载缓存中的数据而不是服务器的最新数据</p>
+    <p>向服务器发送GET请求，将返回体显示</p>
+    <button id="btn">点击发送请求</button>
+    <div id="res"></div>
+    <script>
+        const btn=document.querySelector('#btn')
+        const res=document.querySelector("#res")
+        btn.onclick=function(){
+            console.log("text");
+            // 开始AJAX
+            // 1. 创建对象
+            const xhr=new XMLHttpRequest()
+            // 2. 初始化，设置请求方法和url
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // 传时间戳，因为传的参数每一次的值都是不一样的，所以每一次都会重新发送请求
+            xhr.open('GET','http://127.0.0.1:8000/ie-server?t='+Date.now())
+            // 3. 发送
+            xhr.send()
+            // 4. 事件绑定，处理服务端返回的结果
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState===4){
+                    // 判断响应状态码
+                    if(xhr.status>=200 && xhr.status<300){
+                        // 处理结果
+                        res.innerHTML=xhr.response
+
+                    }
+
+                }
+            }
+
+        }
+    
+
+    </script>
+</body>
+</html>

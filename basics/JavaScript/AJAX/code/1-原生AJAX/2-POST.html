@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX POST</title>
+    <style>
+        #res{
+            width: 300px;
+            height: 300px;
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="res"></div>
+    <script>
+        // 绑定事件
+        res.addEventListener("mouseover", function(){
+            // 1. 创建对象
+            const xhr=new XMLHttpRequest()
+            // 2. 初始化，设置请求类型和URL
+            xhr.open('POST','http://127.0.0.1:8000/server')
+            // 设置请求头
+            // ContentType 设置请求体内容的类型
+            // 可以在Headers里面的Request Headers看到
+            xhr.setRequestHeader('Content-Type','application/x-www-form-unlencoded')
+            // 自定义响应头，服务器端会报错，需要加上setHeader
+            xhr.setRequestHeader('name','myheader')
+            
+            // 3. 发送
+            // 设置请求体的参数
+            // 请求体参数设置比较灵活，只要服务端可以解析
+            // xhr.send('a=100&b=200&c=300')
+            // chrome中在payload -> Query String Parameters查看
+            xhr.send('a:100&b:200')
+            // 4. 绑定事件
+            xhr.onreadystatechange=function(){
+                // 判断
+                if(xhr.readyState===4){
+                    // 成功
+                    if(xhr.status>=200 && xhr.status<300){
+                        // 处理服务器返回的结果
+                        res.innerHTML="aaa"
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

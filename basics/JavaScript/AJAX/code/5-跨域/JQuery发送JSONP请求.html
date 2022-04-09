@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result{
+            width: 300px;
+            height: 300px;
+            border: 1px solid pink;
+        }
+    </style>
+    <script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <button>点击发送JSONP请求</button>
+    <div id="result"></div>
+
+    <script>
+        // 需求：点击按钮用JQuery发送json请求
+        // 结果在result框中呈现
+        $('button').eq(0).click(function(){
+            // 注意！！这里url末尾一定要加上：?callback=?
+            // 作用是把回调函数传过去
+            // 在服务器会返回这个回调函数的调用
+            $.getJSON('http://127.0.0.1:8000/jquery-jsonp-server?callback=?',function(data){
+                $('#result').html(`name: ${data.name}`)
+                console.log(data.name);
+            })
+        })
+    </script>
+    
+</body>
+</html>

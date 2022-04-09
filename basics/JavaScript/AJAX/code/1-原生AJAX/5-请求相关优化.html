@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX REQUEST</title>
+    <style>
+        #res{
+            width: 300px;
+            height: 200px;
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+<body>
+    <p>解决发送请求时可能会遇到的问题</p>
+    <ol>
+        <li>请求超时：服务器会延迟3s响应，客户端超时为2s</li>
+        <li>网络异常：修改chrome为offline状态测试</li>
+        <li>取消发送请求：点击按钮取消请求</li>
+        <li>重复发送请求：防抖节流，即使用户重复点击也不要重复发送给请求</li>
+    </ol>
+
+    <p>向服务器发送GET请求，将返回体显示</p>
+    <button id="btn">发送请求</button>
+    <button id="btn-cancel">取消请求</button>
+    <div id="res"></div>
+    <script>
+        const btn=document.querySelector('#btn')
+        const btnCancel=document.querySelector('#btn-cancel')
+        const res=document.querySelector("#res")
+        let xhr=null
+        let isSending=false // 是否正在发送AJAX请求
+        btn.addEventListener("click",function(){
+            if (isSending) {
+                // 如果已经存在请求，那么中止请求，创建一个新的请求
+                xhr.abort()
+                xhr=new XMLHttpRequest()
+            }
+            // 开始AJAX
+            // 1. 创建对象
+            xhr=new XMLHttpRequest()
+            // 开始请求
+            isSending=true
+            // 超时设置 2s内没有结果就取消请求
+            xhr.timeout=2000
+            xhr.ontimeout=function(){
+                alert("please wait and retry");
+            }
+            // 网络异常设置
+            // 可以在chrome里设置，把online改成offline离线浏览模式
+            xhr.onerror=function(){
+                alert("network error!!")
+            }
+
+            // 2. 初始化，设置请求方法和url
+            xhr.open('GET','http://127.0.0.1:8000/delay')
+            // 3. 发送
+            xhr.send()
+            // 4. 事件绑定，处理服务端返回的结果
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState===4){
+                    // 只要状态为4就算结束发送请求，不一定要成功响应
+                    isSending=false
+                    // 判断响应状态码
+                    if(xhr.status>=200 && xhr.status<300){
+                        // 处理结果
+                        res.innerHTML=xhr.response
+                    }
+                }
+            }
+        })
+
+        // 取消请求 abort
+        btnCancel.addEventListener("click",function(){
+            xhr.abort()
+        })
+    </script>
+</body>
+</html>
