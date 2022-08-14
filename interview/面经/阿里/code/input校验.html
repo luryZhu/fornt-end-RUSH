@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text">
+    <span></span>
+    <br>
+    <input type="text">
+    <span></span>
+    <br>
+    <input type="text">
+    <span></span>
+    <br>
+    <input type="text">
+    <span></span>
+    <br>
+    <input type="text">
+    <span></span>
+    
+    <script>
+        const eleInputs=document.getElementsByTagName('input')
+        const eleSpans=document.getElementsByTagName('span')
+        let len=eleInputs.length
+        let arrVal=new Array(len).fill("")
+
+        function checkInput(i, val){
+            if (val===""){
+                eleSpans[i].innerText="empty"
+                return
+            }
+            if (val.length>10){
+                eleSpans[i].innerText="overlength"
+                return
+            }
+            let count=0
+            arrVal.forEach((value,index)=>{
+                if (index!==i && value===val){
+                    console.log("duplicates",i,index);
+                    eleSpans[index].innerText="duplicated"
+                    count++
+                }
+            })
+            if (count>0) {
+                eleSpans[i].innerText="duplicated"
+                arrVal[i]=val
+                return
+            }
+            arrVal[i]=val
+            console.log(arrVal);
+            eleSpans[i].innerText=""
+        }
+
+        for (let i=0;i<eleInputs.length;i++){
+            eleInputs[i].onblur=function(e){
+                let val=e.target.value
+                checkInput(i,val)
+            }
+        }
+    </script>
+</body>
+</html>

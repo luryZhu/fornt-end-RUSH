@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px !important;
+            height: 100px;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" style="width: 200px; height: 200px;"></div>
+    <div>nihao</div>
+    <!-- <script>
+        
+        class Super{
+            constructor(val){
+                this.val=val
+                this.arr=[]
+            }
+            getArr(){
+                console.log(this.arr)
+            }
+        }
+
+        class Sub extends Super{
+            constructor(val,str) {
+                super(val)
+                this.str=str
+            }
+            getStr(){
+                console.log(this.str)
+            }
+            showsth(){
+                console.log("111")
+            }
+        }
+
+        let s=new Sub(1,"1")
+        let t=new Sub(2,"2")
+        console.log(s.arr===t.arr) // false 不共享实例属性
+        console.log(s.getArr===t.getArr) // true 共享原型方法
+        // s.showsth()
+        // console.log(Sub.prototype);
+        // Sub.prototype.showsth=function(){
+        //     console.log("222");
+        // }
+        // s.showsth()
+        class Person{}
+        let p=new Person()
+        console.log(Person.prototype===p.__proto__);
+        console.log(Person.__proto__===Function.prototype);
+        console.log(Person.prototype.__proto__===Object.prototype);
+         // true
+         // true
+         // true
+    </script> -->
+    
+</body>
+</html>
